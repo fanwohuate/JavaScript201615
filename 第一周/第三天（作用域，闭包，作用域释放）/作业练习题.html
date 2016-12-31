@@ -5,22 +5,23 @@
     <title>Title</title>
 </head>
 <body>
-
 </body>
 </html>
 <script>
-    function fn(){
-        var num = 10;
+    function fn(/*num*/){
+        var num = 10; // 11 12 13 14 15 16
         return function (){
             num++;
             console.log(num);
         }
     }
     var f = fn();
-    f();
+    //var f = fn();
+    f(); // 11
     var obj = {};
     obj.f = f;
-    obj.f();
+    obj.f(); // 12
+
     document.onclick = f;
     for(var i = 0; i< 2; i++){
         document.onclick();
@@ -28,6 +29,8 @@
     f();
     obj.f();
 
+
+    // 11 12 13 14 15 16
 
 
 </script>
