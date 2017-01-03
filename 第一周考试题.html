@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    1 数组的常用方法 //至少写出14种
+    push unshift shift pop splice slice join concat reverse sort indexOf lastIndexOf forEach map ...
+
+    2 字符串常用方法 //至少10种
+    charAt charCodeAt  substr substring slice indexOf lastIndexOf toUpperCase toLowerCase split replace match search ...
+
+    3 获取n-m之间的随机整数
+    Math.round(Math.random()*(m-n)+n)
+
+    4 获取当前屏幕可视窗口的高度
+    document.documentElement.clientHeight||document.body.clientHeight
+
+    5 定时器有几种？定时器的返回值是什么，代表什么意思？
+    window.setInterval   数字  第几个定时器
+    window.setTimeout
+
+</body>
+</html>
+<script>
+    // 6
+    var a = 1, b = 2, c = 3;
+    function fn(a) {
+        a = 4;
+        b = 5;
+        var c = 6;
+    }
+    fn(a);
+    console.log(a); // 1
+    console.log(b); // 5
+    console.log(c); // 3
+
+
+    // 7
+
+    var name = "zhufeng";
+    ;(function (name) {
+        /*var */name = name || "peixun";
+        console.log(name); //'peixun'
+    })();
+    console.log(name); // 'zhufeng'
+
+
+
+    // 8
+    var a = 1;
+    function fn() {
+        var a = 2;
+        return function (b) {
+            console.log(b + (++a));
+        }
+    }
+    var f = fn();
+    f(1); // 4
+    fn()(2); // 5
+    fn()(3); // 6
+    f(4); // 8
+    console.log(a); // 1
+
+
+
+    // 9
+    var num = 10; // 20 40
+    var obj = {
+        num: 10, // 20
+        fn: (function () {
+            this.num *= 2;
+            num *= 3;
+            var num = 10; // 10  30  90
+            return function () {
+                this.num *= 2;
+                num *= 3;
+                console.log(num);
+            }
+        })()
+    };
+    var fn = obj.fn;
+    fn();     // 30
+    obj.fn(); // 90
+    console.log(num,obj.num); // 40 20
+
+
+
+    // 10
+    function Fn() {
+        this.x = 10;
+        this.f = function () {
+            console.log(this.x);
+        }
+    }
+    Fn.prototype = {
+        x: 20,
+        g: function () {
+            console.log(this.x);
+        }
+    };
+    var f1 = new Fn(),f2 = new Fn();
+    console.log(f1.__proto__ == f2.__proto__); // true
+    console.log(f1.f == f2.f); // false
+    console.log(f1.g == f2.g); // true
+    console.log(f2 instanceof Object); // true
+    console.log(f1.constructor); // function Object(){   [native code] }
+    f2.f(); // 10
+    f2.g(); // 10
+    f2.__proto__.g; // f2.__proto__.x  20
+
+
+</script>
