@@ -95,6 +95,7 @@
             console.log(this.x);
         }
     }
+
     Fn.prototype = {
         x: 20,
         g: function () {
@@ -109,7 +110,7 @@
     console.log(f1.constructor); // function Object(){   [native code] }
     f2.f(); // 10
     f2.g(); // 10
-    f2.__proto__.g; // f2.__proto__.x  20
+    f2.__proto__.g(); // f2.__proto__.x  20
 
 
 </script>
