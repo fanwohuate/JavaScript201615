@@ -35,16 +35,31 @@
             border: none;
             vertical-align: top;
         }
+        .btn-top{
+            display: none;
+            width: 40px ;
+            height: 40px;
+            position: fixed;
+            right: 30px;
+            bottom: 120px;
+            background: url("images/top.png") no-repeat #000;
+            background-size: 100% auto;
+            opacity: 0.6;
+            border-radius: 3px;
+        }
+        .btn-top:hover{
+            opacity: 1;
+        }
 
 
     </style>
 </head>
 <body>
 <ul>
-
 </ul>
 <ul></ul>
 <ul></ul>
+<a class="btn-top J-btn-top" href="javascript:void 0"></a>
 </body>
 </html>
 <script src="../utils.js"></script>
@@ -74,6 +89,35 @@
             appendLiToUl();
         }
     }
+
+    // 回到顶部
+
+    var btn = document.getElementsByClassName('J-btn-top')[0];
+    /*var timer = null;*/
+    btn.onclick = function (){
+        // 越点击越快，同时存在多个定时器
+        window.clearInterval(this.timer); // 这个是清空上一次的定时器
+        var that = this;
+        this.timer = window.setInterval(function () {
+            var curScrollTop = utils.win('scrollTop'); //获取窗口滚出去的高度
+            if(curScrollTop <= 0){ // 清空当次定时器
+                // 当次定时器执行的时候这个值小于等于0说明已经到达顶部，清空定时器
+                window.clearInterval(that.timer);
+            }
+            curScrollTop -= 10;
+            utils.win('scrollTop',curScrollTop);
+        },10);
+    }
+
+    /*
+    *   1 目前按钮已经隐藏，在滚动的过程中需要让按钮显示 (滚动超过一个屏幕高度然后让按钮显示)
+    *   2 并且这个按钮还需要在回到顶部的过程中还要消失
+    *   utils.setCss操作样式
+    *
+    * */
+
+
+
 
 
 </script>
