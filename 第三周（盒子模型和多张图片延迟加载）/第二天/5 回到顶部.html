@@ -65,6 +65,9 @@
 <script src="../utils.js"></script>
 <script>
     var uls = document.getElementsByTagName('ul'); // [ul,ul,ul]
+    // 回到顶部
+
+    var btn = document.getElementsByClassName('J-btn-top')[0];
     appendLiToUl();
     function appendLiToUl() {
         for (var i = 0; i < 50; i++) {
@@ -82,17 +85,22 @@
         }
     }
 
-    window.onscroll = function () {
-        var curScrollTop = utils.win('scrollTop');
-        var winHeight = utils.win('clientHeight');
+    window.onscroll = fn;
+    function fn() {
+        var curScrollTop = utils.win('scrollTop'); // 当前滚动出去的高度
+        var winHeight = utils.win('clientHeight'); // 一个窗口高度
         if (curScrollTop > document.body.scrollHeight - winHeight - 500) {
             appendLiToUl();
         }
+        // 滚动的时刻操作回到顶部的按钮显示隐藏
+        if(curScrollTop > winHeight){
+            utils.setCss(btn,'display','block');
+        }else{
+            utils.setCss(btn,'display','none');
+        }
     }
 
-    // 回到顶部
 
-    var btn = document.getElementsByClassName('J-btn-top')[0];
     /*var timer = null;*/
     btn.onclick = function (){
         // 越点击越快，同时存在多个定时器
@@ -103,10 +111,15 @@
             if(curScrollTop <= 0){ // 清空当次定时器
                 // 当次定时器执行的时候这个值小于等于0说明已经到达顶部，清空定时器
                 window.clearInterval(that.timer);
+                // 这个判断就是到达顶部，到达顶部还需要把window.onscroll事件重新绑定
+                window.onscroll = fn; // 重新绑定
+                return;
             }
             curScrollTop -= 10;
             utils.win('scrollTop',curScrollTop);
         },10);
+        utils.setCss(this,'display','none'); // 点击之后按钮的确消失了，但是在滚动条回到顶部的过程中又触发了window.onscroll事件。而这个事件中判断滚动条位置，然后按钮又显示了。
+        window.onscroll = null; // 把这个滚动事件移除掉
     }
 
     /*
