@@ -9,8 +9,47 @@
 </body>
 </html>
 <script>
-    var str = 'aaabbbcccdddd'; // a
-    // ??
+    var str = 'aaabbbccccdddd'; // a
+    var obj = {}; // {a : 1}
+    str.replace(/\w/g,function (item){
+        item; // a a a b b b...
+        //console.log(arguments); // [正则匹配的内容，$1...,index,input]
+        if(obj[item]){ // obj.a
+            obj[item] += 1;
+
+        }else{ // obj.a => undefined => 第一次出现
+            obj[item] = 1;
+        }
+    });
+    console.log(obj); // {a : 3 ...}
+    // {a: 3, b: 3, c: 3, d: 4}
+    var max = 0;
+    for(var key in obj){
+        key; // a b c d
+        if(obj[key] > max){
+            max = obj[key];
+        }
+    }
+    console.log(max); // 4
+
+    var a = [];
+    for(var key in obj){
+        if(obj[key] == max){
+            a.push(key);
+        }
+    }
+    console.log(a); // ['c','d']
+
+    console.log('出现最多的字符是'+a.join() +' 出现了'+max+'次');
+
+
+
+
+
+
+
+
+
 
 
 
