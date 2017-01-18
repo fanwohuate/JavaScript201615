@@ -123,3 +123,21 @@ left.onclick = function (){
 }
 right.onclick = autoPlay;
 
+// 给焦点绑定点击事件
+;(function (){
+    for(var i = 0; i < lis.length; i++){
+        lis[i].index = i;
+        lis[i].onclick = function (){
+            index = this.index; // 修改index的值。animate根据index的值动画
+            animate({
+                ele : bannerInner,
+                target : {
+                    left : -index*600
+                },
+                duration : 500
+            });
+            focusAlign();
+        }
+    }
+})();
+
