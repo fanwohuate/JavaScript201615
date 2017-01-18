@@ -43,9 +43,3 @@ var animate = (function (){
 
 
 
-animate({
-    ele : div1,
-    target : {
-        left : 500
-    }
-});
