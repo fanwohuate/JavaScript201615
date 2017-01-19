@@ -87,42 +87,7 @@ var utils = (function (){
         }
         return {left : l, top : t};
     }
-    function getCss(ele,attr){
-        var val = null;
-        if(window.getComputedStyle){
-            val = window.getComputedStyle(ele)[attr];
-        }else{
-            if(attr == 'opacity'){
-                val = ele.currentStyle.filter;
-                var reg = /^alpha\(opacity=(\d+(?:\.\d+)?)\)$/;
-                val = reg.test(val) ? reg.exec(val)[1]/100 : 1;
-            }else{
-                val = ele.currentStyle[attr];
-            }
-        }
-        // -5.5px
-        var reg = /^-?\d+(\.\d+)?(px|pt|em|rem|deg)?$/;
-        return reg.test(val) ? parseFloat(val) : val;
-    }
-    function setCss(ele,attr,val){
-        if(attr == 'opacity'){
-            ele.style.opacity = val;
-            ele.style.filter = 'alpha(opacity='+ val*100 + ')';
-            return;
-        }
-        if(attr == 'float'){
-            ele.style.cssFloat = val;
-            ele.style.styleFloat = val;
-            return;
-        }
-        var reg = /^(width|height|left|top|right|bottom|(margin|padding)(Left|Top|Right|Bottom)?)$/;
-        if(reg.test(attr)){
-            if(!isNaN(val)){
-                val += 'px';
-            }
-        }
-        ele.style[attr] = val;
-    }
+
     function getElesByClass(className,context){
         context = context || document;
         if(context.getElementsByClassName){
@@ -211,7 +176,67 @@ var utils = (function (){
         return prevAll(ele).length;
     }
 
+
+
+    function getCss(ele,attr){
+        var val = null;
+        if(window.getComputedStyle){
+            val = window.getComputedStyle(ele)[attr];
+        }else{
+            if(attr == 'opacity'){
+                val = ele.currentStyle.filter;
+                var reg = /^alpha\(opacity=(\d+(?:\.\d+)?)\)$/;
+                val = reg.test(val) ? reg.exec(val)[1]/100 : 1;
+            }else{
+                val = ele.currentStyle[attr];
+            }
+        }
+        // -5.5px
+        var reg = /^-?\d+(\.\d+)?(px|pt|em|rem|deg)?$/;
+        return reg.test(val) ? parseFloat(val) : val;
+    }
+    function setCss(ele,attr,val){
+        if(attr == 'opacity'){
+            ele.style.opacity = val;
+            ele.style.filter = 'alpha(opacity='+ val*100 + ')';
+            return;
+        }
+        if(attr == 'float'){
+            ele.style.cssFloat = val;
+            ele.style.styleFloat = val;
+            return;
+        }
+        var reg = /^(width|height|left|top|right|bottom|(margin|padding)(Left|Top|Right|Bottom)?)$/;
+        if(reg.test(attr)){
+            if(!isNaN(val)){
+                val += 'px';
+            }
+        }
+        ele.style[attr] = val;
+    }
+    function setGroupCss(ele,obj){
+        for(var key in obj){
+            setCss(ele,key,obj[key]);
+        }
+    }
+    function css(ele){
+        // 根据参数的不同来处理不同的逻辑
+        var secondParam = arguments[1];
+        var thirdParam = arguments[2];
+        if(typeof secondParam == 'string'){
+            if(typeof thirdParam == 'undefined'){
+                return getCss.call(ele,secondParam);
+            }
+            setCss(ele,secondParam,thirdParam);
+        }
+        // 只有{}对象返回[object Object]的字符串
+        if(Object.prototype.toString.call(secondParam) == '[object Object]'){
+            setGroupCss(ele,secondParam);
+        }
+    }
+
     return {
+
         hasClass : hasClass,
         addClass : addClass,
         removeClass : removeClass,
@@ -221,8 +246,12 @@ var utils = (function (){
         sibling : sibling,
         siblings : siblings,
         index : index,
-        setCss : setCss,
+
         getCss : getCss,
+        setCss : setCss,
+        setGroupCss : setGroupCss,
+        css : css,
+
         offset : offset,
         win : win,
         toArray : toArray,
@@ -236,9 +265,21 @@ var utils = (function (){
 
 })();
 
-
-
-
+// utils.getCss(div1,'width');
+// utils.setCss(div1,'width',100);
+// utils.setGroupCss(div1,{width : 100,height : 100});
+// // 如果第二个参数是一个字符串要么是获取/设置 => 如果存在第三个就是设置
+// // 如果第二个参数是一个对象 => 设置一组属性
+// utils.css(ele);
+// function setCss(/*ele,*/attr,val){
+//     this.style[attr] = val;
+// }
+// //HTMLDivElement => HTMLElement => Element => Node;
+// //HTMLParagraphElement;
+// Element.prototype.setCss = setCss;
+// p.setCss('width',100);
+// div1.setCss('width',100);
+// span.setCss();
 
 
 
