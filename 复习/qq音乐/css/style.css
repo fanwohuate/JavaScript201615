@@ -110,6 +110,7 @@ html{
     position: relative;
     height: 6rem;
     margin: .4rem .2rem;
+    overflow: hidden;
 }
 .main .lyric{
     position: absolute;
