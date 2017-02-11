@@ -73,6 +73,11 @@
         //var wrap = document.getElementById('wrap');
         var mask = wrap.getElementsByClassName('mask')[0];
         on(wrap, 'mouseenter', function (e) {
+            // body
+            /*var tar = e.fromElement || e.relatedTarget;
+            if(wrap.contains(tar)){
+                return;
+            }*/
             // 计算出鼠标刚刚进入盒子那一刻的鼠标坐标
             var x = e.pageX - wrap.offsetLeft - wrap.offsetWidth / 2;
             var y = wrap.offsetTop + wrap.offsetHeight / 2 - e.pageY;
@@ -97,7 +102,7 @@
                     mask.style.top = -120 + 'px';
                     break;
             }
-            $(mask).animate({left: 0, top: 0});
+            $(mask).stop().animate({left: 0, top: 0});
 
         });
         // 获取进入方向
@@ -115,25 +120,25 @@
             var direction = getDirection(x, y);
             switch (direction) {
                 case 0 :
-                    $(mask).animate({
+                    $(mask).stop().animate({
                         left: -120,
                         top: 0
                     });
                     break;
                 case 1:
-                    $(mask).animate({
+                    $(mask).stop().animate({
                         left: 0,
                         top: 120
                     });
                     break;
                 case 2:
-                    $(mask).animate({
+                    $(mask).stop().animate({
                         left: 120,
                         top: 0
                     });
                     break;
                 case 3:
-                    $(mask).animate({
+                    $(mask).stop().animate({
                         left: 0,
                         top: -120
                     });
