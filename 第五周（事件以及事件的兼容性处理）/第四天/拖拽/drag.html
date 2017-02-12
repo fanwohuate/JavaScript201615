@@ -28,9 +28,8 @@
 </head>
 <body>
 <div id="wrap" class="wrap">
-    <!--<img src="yingke.jpg">-->
+    <img src="yingke.jpg">
 </div>
-
 </body>
 </html>
 <script src="../event2.js"></script>
@@ -40,6 +39,7 @@
     *     dom.releaseCapture()  释放这个链接
     * */
     var wrap = document.getElementById('wrap');
+
     on(wrap,'mousedown',function (e){
         // l和t就鼠标相对于盒子的坐标
         // 这个l和t由于在mousemove的时候也需要用，所以保存在自定义属性上
@@ -72,6 +72,7 @@
             off(document,'mousemove',move);
             off(document,'mouseup',up);
         }
+        // 拖拽结束之后我要做什么。。。。
     }
 
     // new Drag(box1);
