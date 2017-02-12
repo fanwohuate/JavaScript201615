@@ -2,6 +2,7 @@
 // 类的封装 : 方法放在原型上，属性放在私有属性上
 // 用公有方法去操作私有属性，实例本身作为承上启下的这么载体
 ;(function (){
+
     function Drag(ele,range){
         this.ele = ele; // div1  把要拖拽的元素存在实例的ele私有属性上
         this.ele.l = null;
@@ -22,6 +23,7 @@
         on(this.ele,'mousedown',/*this.down*/this.ele.DOWN); // 绑定事件当鼠标按下的时刻，执行原型上的down方法，down方法中的this就是ele了 => 类的封装必须保证原型上方法中的this是实例
 
     }
+
     Drag.prototype.down = function (e){
         // 事件发生执行的时刻this是实例
         this.ele.l = e.pageX - this.ele.offsetLeft; // 元素在实例的ele属性上
@@ -34,6 +36,7 @@
             on(document,'mousemove',this.ele.MOVE);
             on(document,'mouseup',this.ele.UP);
         }
+        // 开始拖拽的时刻要做什么???
     }
 
     Drag.prototype.move = function (e){
@@ -48,6 +51,7 @@
         this.ele.style.left = left + 'px';
         this.ele.style.top = top + 'px';
         e.preventDefault();
+        // 拖拽中要做什么???
     }
 
     Drag.prototype.up = function (e){
@@ -59,6 +63,9 @@
             off(document,'mousemove',this.ele.MOVE);
             off(document,'mouseup',this.ele.UP);
         }
+        // 拖拽结束之后要做什么???
+
     }
+
     window.Drag = Drag;
 })();
