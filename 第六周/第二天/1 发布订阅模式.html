@@ -40,7 +40,7 @@
     // 事件的绑定 => 把对应的函数添加到自定义属性数组中
     // 事件的触发 => 在对应的事件发生时刻执行对应数组中的方法
 
-    on(div1, 'selfdragstart', dragstart); //
+    on(div1, 'selfdragstart', dragstart); // 订阅
     function dragstart() {
         this.innerHTML = '拖拽开始';
     }
@@ -66,13 +66,19 @@
             on(this, 'mousemove', move);
             on(this, 'mouseup', up);
         } else {
-            var that = this;
+            var that = this; // div1
+
             that.MOVE = function (e) {
                 move.call(that, e);
             }
-            that.UP = function (e) {
-                up.call(that, e);
-            }
+
+            //that.MOVE = processThis(move,that);
+
+            that.UP = processThis(up,that);
+
+//            that.UP = function (e) {
+//                up.call(that, e);
+//            }
             on(document, 'mousemove', that.MOVE);
             on(document, 'mouseup', that.UP);
         }
@@ -80,7 +86,8 @@
         // 无论哪个元素绑定了拖拽开始的事件，那么都在此刻执行 => 对应放在dragstart事件的函数在这被执行就行了
         //this.innerHTML = '拖拽开始';
         // 找到div1.selfdragstart数组里对应的函数，然后一一执行
-        fire.call(this, 'selfdragstart', e); // 通知所有绑定selfdragstart事件的函数在此刻执行
+        fire.call(this, 'selfdragstart', e);  // 发布事件
+        // 通知所有绑定selfdragstart事件的函数在此刻执行
     }
     function move(e) {
         var left = e.pageX - this.l;
@@ -213,6 +220,13 @@
             }
         }
     }
+
+    function processThis(move,that){
+        return function (e){
+            move.call(that,e);
+        }
+    }
+
 
 
 </script>
