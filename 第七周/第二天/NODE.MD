@@ -25,5 +25,86 @@ I/O：input/output 对文件的增删改查操作
 - 自定义模块：自己写的
 - 第三方模块：别人写好的，我们来调取使用 
     + 安装NODE之后自带npm命令，用来管理第三方模块的，所有我们需要调取的第三方模块都在https://www.npmjs.com/这个网站中
+    
+```
+  使用npm安装模块
+  1、安装到全局(global)
+    npm install xxx(模块名字) -g
+    npm uninstall xxx -g 卸载已经安装在全局的模块
+    
+    
+  2、安装在当前的项目下
+    npm install xxx(模块名字)
+    npm uninstall xxx 
+  
+  
+   把模块安装到全局的问题：
+   - 以后不管是在哪一个项目目录下，我们都可以"通过使用命令操作的方式"来进行操作了，但是不能通过代码导入这个模块使用
+   - 安装在全局有很多时候会导致版本号冲突，例如：我之前安装的是LESS的2.7版本，以前的项目都是使用这个版本开发的，后来LESS升级了，升级到3.1，新版本和之前的版本不太一样，如果全局安装最新的，原来的项目就没办法使用LESS了
+     
+   把模块安装在当前的项目中也有问题：
+   - 不能像安装在全局一样使用命令了，但是可以使用JS导入了
+     解决：在package.json 文件的scripts这个属性中进行配置
+      "scripts": {//->配置NPM脚本命令
+         "myFirst": "lessc ceshi.less ceshi.min.css -x"
+       }
+      以后再DOS中只需要执行npm run myFirst，就可以执行lessc -v这个命令了
+     
+   - 在当前的项目中会有一个node_modules文件夹,里面存储的都是我们当前项目所需要使用的模块(这个文件夹很大的，传递给其他人非常的不好处理)
+     解决：上传gitHub的时候在项目目录中增加一个文件：.gitignore 这个文件中可以配置上传的时候忽略哪些文件，这些被忽略的文件就不在上传了
+   
+   - 我们把一些第三方模块安装在A项目下,B项目不能直接的导入使用,如果需要的话还需要在B项目中重新的安装一遍
+     解决：需要在安装第三方模块的时候，把当前项目的所需要的模块清单写入到package.json的开发依赖项中
+     npm install xxx --save-dev 放在开发依赖模块清单中
+     npm install xxx --save 放在生产依赖的模块清单中
+     
+     下一个B项目如果还是需要这些模块，我们就没有必要一个个的安装了，只需要把package.json文件拷贝到B项目中，然后执行 npm install 即可，这样的系统就会默认按照我们的开发依赖清单一个个的下载 =>"跑环境"
+   
+   
+   我们平时在做项目开发的时候，首先会在当前项目的根目录下执行：
+     npm init -y
+   这样执行完成后，会在当前项目的根目录下生成一个文件：package.json
+   {
+     "name": "20170222", //->项目名称
+     "version": "1.0.0", //->项目的版本号
+     "description": "", //->当前项目的描述
+     "main": "temp.js", //->当前项目的入口
+     "dependencies": {  //->当前项目依赖的第三方模块清单(生产:项目发布上线)
+       "less": "^2.7.2"
+     },
+     "devDependencies": {}, //->当前项目依赖的第三方模块清单(开发:项目正在研发)
+     "scripts": {//->命令脚本
+       "test": "echo \"Error: no test specified\" && exit 1"
+     },
+     "keywords": [],
+     "author": "",
+     "license": "ISC"
+   }
+   
+  
+  晚上回去：
+     搭建一个新的项目(生成一个package.json文件) 
+     在当前的项目中安装以下第三方模块：
+       less
+       babel-cli
+       babel-preset-es2015
+       babel-preset-es2016
+     把这个三个模块安装到当前的项目中，并且把安装的信息写入到开发依赖项中 
+      
+     在package.json中配置命令：
+       "lessc" -> 实现把index.less 变为 index.min.css
+       "build" -> 实现把index.js 变为 build.js  "build":"babel index.js -o build.js"
+       
+     分别执行npm run xxx 测试效果
+```
+
+在NODE环境下，它认为每一个JS都可以理解为一个单独的模块，所以我们创建模块只需要创建JS文件即可；并且每一个模块和模块之间是互不干扰的；
+
+模块和模块之间方法的互相调用:
+A：fn
+B：调取fn这个方法
+
+
+
 
 
